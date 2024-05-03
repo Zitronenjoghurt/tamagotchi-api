@@ -9,6 +9,10 @@ use utoipa_swagger_ui::SwaggerUi;
 pub mod authentication;
 mod docs;
 
+pub mod entities {
+    pub mod user;
+}
+
 pub mod models {
     pub mod response_models;
 }
