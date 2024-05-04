@@ -1,4 +1,3 @@
-use crate::database::db;
 use axum::Router;
 use std::io;
 use utoipa::OpenApi;
@@ -7,6 +6,7 @@ use utoipa_redoc::{Redoc, Servable};
 use utoipa_swagger_ui::SwaggerUi;
 
 pub mod authentication;
+mod database;
 mod docs;
 
 pub mod entities {
@@ -22,13 +22,13 @@ pub mod resources {
 }
 
 #[derive(Clone)]
-struct AppState {
-    database: db::DB,
+pub struct AppState {
+    database: database::DB,
 }
 
 #[tokio::main]
 async fn main() -> io::Result<()> {
-    let db = db::setup().await.expect("Failed to set up MongoDB.");
+    let db = database::setup().await.expect("Failed to set up MongoDB.");
 
     let app_state = AppState { database: db };
 

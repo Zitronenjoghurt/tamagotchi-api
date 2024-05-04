@@ -34,7 +34,7 @@ impl FromRequestParts<AppState> for ExtractUser {
                 )
             })?;
 
-        let mut user = find_user_by_key(&state.database.user_collection, api_key)
+        let user = find_user_by_key(&state.database.user_collection, api_key)
             .await
             .map_err(|_| {
                 (
@@ -47,8 +47,8 @@ impl FromRequestParts<AppState> for ExtractUser {
                 "Invalid API key, check /docs for more information",
             ))?;
 
-        let method = parts.method.as_str();
-        let path = parts.uri.path();
+        //let method = parts.method.as_str();
+        //let path = parts.uri.path();
 
         user.save(&state.database.user_collection)
             .await

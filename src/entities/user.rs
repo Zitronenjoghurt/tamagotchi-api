@@ -15,10 +15,6 @@ pub struct User {
     pub created_stamp: u64,
 }
 
-fn default_tz() -> Tz {
-    "UTC".parse().unwrap()
-}
-
 impl User {
     pub async fn save(&self, collection: &Collection<User>) -> mongodb::error::Result<()> {
         let filter = doc! { "key": &self.key };
