@@ -14,7 +14,7 @@ pub async fn setup() -> Result<DB> {
     let mongo_url = env::var("DB_URL").expect("DB URL not set.");
     let client_options = ClientOptions::parse(mongo_url).await?;
     let client = Client::with_options(client_options)?;
-    let db = client.database("LemCom");
+    let db = client.database("Tamagotchi");
 
     Ok(DB {
         client,

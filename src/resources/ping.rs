@@ -1,5 +1,6 @@
 use crate::authentication::ExtractUser;
 use crate::{models::response_models::MessageResponse, AppState};
+use axum::response::{IntoResponse, Response};
 use axum::{routing::get, Json, Router};
 
 /// Ping the API for a response.
@@ -18,11 +19,11 @@ use axum::{routing::get, Json, Router};
     ),
     tag = "Misc"
 )]
-async fn get_ping(ExtractUser(_): ExtractUser) -> Json<MessageResponse> {
+async fn get_ping(ExtractUser(_): ExtractUser) -> Response {
     let response = MessageResponse {
         message: "Pong".to_string(),
     };
-    Json(response)
+    Json(response).into_response()
 }
 
 pub fn router() -> Router<AppState> {

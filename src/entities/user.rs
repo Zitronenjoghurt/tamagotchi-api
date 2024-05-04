@@ -1,4 +1,3 @@
-use chrono_tz::Tz;
 use futures::future::try_join_all;
 use mongodb::{
     bson::{self, doc},
@@ -6,6 +5,8 @@ use mongodb::{
     Collection,
 };
 use serde::{Deserialize, Serialize};
+
+use crate::error::ApiError;
 
 #[derive(Serialize, Deserialize)]
 pub struct User {
@@ -16,7 +17,7 @@ pub struct User {
 }
 
 impl User {
-    pub async fn save(&self, collection: &Collection<User>) -> mongodb::error::Result<()> {
+    pub async fn save(&self, collection: &Collection<User>) -> Result<(), ApiError> {
         let filter = doc! { "key": &self.key };
         let update = doc! { "$set": bson::to_bson(self)? };
         let options = UpdateOptions::builder().upsert(true).build();
@@ -29,7 +30,7 @@ impl User {
 pub async fn find_user_by_key(
     collection: &Collection<User>,
     key: &str,
-) -> mongodb::error::Result<Option<User>> {
+) -> Result<Option<User>, ApiError> {
     let filter = doc! { "key": key };
     let user = collection.find_one(Some(filter), None).await?;
     Ok(user)
@@ -38,7 +39,7 @@ pub async fn find_user_by_key(
 async fn find_users_by_keys(
     collection: &Collection<User>,
     keys: Vec<&str>,
-) -> mongodb::error::Result<Vec<Option<User>>> {
+) -> Result<Vec<Option<User>>, ApiError> {
     let futures = keys
         .into_iter()
         .map(|key| find_user_by_key(collection, key))
@@ -49,7 +50,7 @@ async fn find_users_by_keys(
 pub async fn find_user_by_name(
     collection: &Collection<User>,
     name: &str,
-) -> mongodb::error::Result<Option<User>> {
+) -> Result<Option<User>, ApiError> {
     let filter = doc! { "name": name.to_lowercase() };
     let user = collection.find_one(Some(filter), None).await?;
     Ok(user)

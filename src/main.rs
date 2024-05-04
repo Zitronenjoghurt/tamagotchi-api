@@ -8,6 +8,7 @@ use utoipa_swagger_ui::SwaggerUi;
 pub mod authentication;
 mod database;
 mod docs;
+pub mod error;
 
 pub mod entities {
     pub mod user;
