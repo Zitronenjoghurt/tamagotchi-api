@@ -24,7 +24,7 @@ impl From<mongodb::error::Error> for ApiError {
 
 impl From<mongodb::bson::ser::Error> for ApiError {
     fn from(error: mongodb::bson::ser::Error) -> Self {
-        ApiError::DatabaseError(error.to_string())
+        ApiError::SerializationError(error.to_string())
     }
 }
 
