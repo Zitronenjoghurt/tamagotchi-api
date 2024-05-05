@@ -6,6 +6,7 @@ use std::fmt;
 
 #[derive(Debug)]
 pub enum ApiError {
+    AuthorizationError(String),
     DatabaseError(String),
     SerializationError(String),
 }
@@ -38,6 +39,10 @@ impl IntoResponse for ApiError {
             ApiError::SerializationError(message) => (
                 StatusCode::INTERNAL_SERVER_ERROR,
                 format!("A serialization error occured: {}", message),
+            ),
+            ApiError::AuthorizationError(message) => (
+                StatusCode::UNAUTHORIZED,
+                format!("An authorization error occured: {}", message),
             ),
         };
 

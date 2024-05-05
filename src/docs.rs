@@ -7,8 +7,8 @@ use utoipa::{
 #[derive(OpenApi)]
 #[openapi(
     info(
-        title="LemCom API",
-        description="A webservice for handling LemCom online services. LemCom will be a messaging application for desktop written in Rust.\n\nAll available docs: Rapidoc (/docs), Swagger (/swagger) and Redoc (/redoc).\n\nIf you find bugs or have feedback please create an issue here: https://github.com/Zitronenjoghurt/lemcom-api/issues"
+        title="Tamagotchi API",
+        description="A small tamagotchi webservice, handling all game logic.\n\nAll available docs: Rapidoc (/docs), Swagger (/swagger) and Redoc (/redoc).\n\nIf you find bugs or have feedback please create an issue here: https://github.com/Zitronenjoghurt/tamagotchi-api/issues"
     ),
     paths(
         resources::ping::get_ping
